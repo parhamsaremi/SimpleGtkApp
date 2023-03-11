@@ -255,7 +255,6 @@ namespace sample_gtk_app
 		private Gtk.Entry _entry;
 		private Gtk.Button _button;
 		private Gtk.Arrow _arrow;
-		private Color _color = Colors.Black;
 
 		// error CS0612: 'HBox.HBox()' is obsolete 
 #pragma warning disable 612
@@ -294,22 +293,14 @@ namespace sample_gtk_app
 			}
 		}
 
-		public Color Color
-		{
-			get { return _color; }
-			set
-			{
-				_color = value;
-				Entry.UpdateTextColor(_color);
-			}
-		}
-
 		public void SetBackgroundColor(Gdk.Color color)
 		{
+            var redColor = new Gdk.Color(255, 0, 0);
+			var blueColor = new Gdk.RGBA { Red = 0, Green = 0, Blue = 255, Alpha = 1 };
 			// error CS0612: 'Widget.ModifyBg(StateType, Color)' is obsolete && error CS0612: 'Widget.OverrideBackgroundColor(StateFlags, RGBA)' is obsolete
 #pragma warning disable 612
-			ModifyBg(Gtk.StateType.Normal, Colors.Red.ToGdkColor());
-			Entry.OverrideBackgroundColor(Gtk.StateFlags.Normal, Colors.Blue.ToGdkRgba());
+			ModifyBg(Gtk.StateType.Normal, redColor);
+			Entry.OverrideBackgroundColor(Gtk.StateFlags.Normal, blueColor);
 #pragma warning restore 612
 		}
 	}
