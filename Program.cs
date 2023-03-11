@@ -449,13 +449,18 @@ namespace sample_gtk_app
             Application.Init();
 
             Window myWin = new Window("My first GTK# Application! ");
-            myWin.Resize(200,200);
+            myWin.Resize(200,800);
+            VBox vbox = new VBox();
 
+            myWin.Add(vbox);
             Label myLabel = new Label();
             myLabel.Text = "Hello World!!!!";
+            Label myLabel2 = new Label();
+            myLabel2.Text = "Hello World22222!!!!";
+            vbox.PackStart(myLabel, false, false, 10);
+            vbox.PackStart(myLabel2, false, false, 10);
             MauiDatePicker datePicker = new MauiDatePicker();
-            myWin.Add(datePicker);
-            myWin.Add(myLabel);
+            vbox.PackStart(datePicker, false, false, 10);
             myWin.ShowAll();
 
             Application.Run();
