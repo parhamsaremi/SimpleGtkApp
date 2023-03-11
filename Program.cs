@@ -10,13 +10,15 @@ namespace sample_gtk_app
         {
             Application.Init();
 
-            var app = new Application("org.sample_gtk_app.sample_gtk_app", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
+            Window myWin = new Window("My first GTK# Application! ");
+            myWin.Resize(200,200);
 
-            var win = new MainWindow();
-            app.AddWindow(win);
+            Label myLabel = new Label();
+            myLabel.Text = "Hello World!!!!";
 
-            win.Show();
+            myWin.Add(myLabel);
+            myWin.ShowAll();
+
             Application.Run();
         }
     }
