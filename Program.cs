@@ -377,6 +377,7 @@ namespace sample_gtk_app
 
 		void ShowPickerWindow()
 		{
+			GC.Collect();
 			int x = 0;
 			int y = 0;
 
