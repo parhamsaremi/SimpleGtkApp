@@ -178,10 +178,21 @@ namespace sample_gtk_app
 			CloseCalendar();
 		}
 
+		public void ShowCalendar()
+		{
+			if ((Child != null))
+			{
+				Child.ShowAll();
+			}
+
+			Show();
+			GrabHelper.GrabWindow(this);
+		}
+
 		void CloseCalendar()
 		{
 			GrabHelper.RemoveGrab(this);
-			Destroy();
+			Hide();
 		}
 
 		void NotifyDateChanged()
@@ -378,21 +389,26 @@ namespace sample_gtk_app
 		void ShowPickerWindow()
 		{
 			GC.Collect();
-			int x = 0;
-			int y = 0;
+			if(_pickerWindow is null){
+				Console.WriteLine("Creating new picker window");
+				int x = 0;
+				int y = 0;
 
-			Window.GetOrigin(out x, out y);
-			y += Allocation.Height;
+				Window.GetOrigin(out x, out y);
+				y += Allocation.Height;
 
-			var picker = new DatePickerWindow();
-			picker.Move(x, y);
-			picker.SelectedDate = Date;
-			picker.MinimumDate = MinDate;
-			picker.MaximumDate = MaxDate;
-			picker.OnDateTimeChanged += OnPopupDateChanged;
-			picker.Destroyed += OnPickerClosed;
-
-			_pickerWindow = picker;
+				var picker = new DatePickerWindow();
+				picker.Move(x, y);
+				picker.SelectedDate = Date;
+				picker.MinimumDate = MinDate;
+				picker.MaximumDate = MaxDate;
+				picker.OnDateTimeChanged += OnPopupDateChanged;
+				picker.Destroyed += OnPickerClosed;
+				_pickerWindow = picker;
+			}
+			else {
+				_pickerWindow.ShowCalendar();
+			}
 		}
 
 		void OnPopupDateChanged(object sender, DateEventArgs args)
@@ -433,11 +449,12 @@ namespace sample_gtk_app
 
 		void OnPickerClosed(object? sender, EventArgs eventArgs)
 		{
-			if (_pickerWindow != null)
+			var window = sender as DatePickerWindow;
+
+			if (window != null)
 			{
-				Remove(_pickerWindow);
+				window.Hide();
 				LostFocus?.Invoke(this, EventArgs.Empty);
-				_pickerWindow = null;
 			}
 		}
 	}
